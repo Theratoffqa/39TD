@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import RestrictSchedule from './components/Restrictions'; // Importar el componente actualizado
 
 function App() {
   return (
@@ -7,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edita <code>src/App.js</code> y guarda para recargar.
         </p>
         <a
           className="App-link"
@@ -15,11 +16,18 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Aprende React
         </a>
       </header>
+
+      {/* Aquí integramos el componente RestrictSchedule */}
+      <div className="schedule-section">
+        <h2>Restricción de Horarios</h2>
+        <RestrictSchedule />
+      </div>
     </div>
   );
 }
 
 export default App;
+
