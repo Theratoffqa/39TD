@@ -1,33 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
-import RestrictSchedule from './components/Restrictions'; // Importar el componente actualizado
+import React, { useState } from 'react';
+import Horario from './components/Horario';
+import AddProfesorForm from './components/AddProfesorForm';
 
-function App() {
+const App = () => {
+  const [profesores, setProfesores] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [currentProfesor, setCurrentProfesor] = useState(null);
+
+  const addOrUpdateProfesor = (nuevoProfesor) => {
+    if (currentProfesor) {
+      setProfesores(profesores.map(prof => prof === currentProfesor ? nuevoProfesor : prof));
+    } else {
+      setProfesores([...profesores, nuevoProfesor]);
+    }
+    setShowForm(false); // Cierra el formulario después de guardar
+    setCurrentProfesor(null); // Reinicia el estado del profesor actual
+  };
+
+  const handleEdit = (profesor) =>{
+    setCurrentProfesor(profesor);
+    setShowForm(true);
+  };
+
+  const handleDelete = (profesor) => {
+    setProfesores(profesores.filter(prof => prof !== profesor));
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edita <code>src/App.js</code> y guarda para recargar.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Aprende React
-        </a>
-      </header>
-
-      {/* Aquí integramos el componente RestrictSchedule */}
-      <div className="schedule-section">
-        <h2>Restricción de Horarios</h2>
-        <RestrictSchedule />
-      </div>
+    <div>
+      <h1>Horario Semanal</h1>
+      {showForm && <AddProfesorForm onAddProfesor={addOrUpdateProfesor} onClose={() => setShowForm(false)} profesor={currentProfesor}/>}
+      <button onClick={() =>{setCurrentProfesor(null); setShowForm(true);}}>Agregar Profesor</button>
+      <Horario profesores={profesores} onEdit={handleEdit} onDelete={handleDelete}/>
     </div>
   );
-}
+};
 
 export default App;
-
