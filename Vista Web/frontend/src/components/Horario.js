@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Horario = ({ profesores, onEdit, onDelete }) => {
+const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const horas = Array.from({ length: 15 }, (_, i) => `${i + 8}:00`); // Horas de 8:00 a 22:00
   const [horarios, setHorarios] = useState(Array(dias.length).fill(null).map(() => Array(horas.length).fill('')));
@@ -15,7 +15,14 @@ const Horario = ({ profesores, onEdit, onDelete }) => {
   const isTimeDisabled = (diaIndex, hora) => {
     if (!selectedProfesor) return false;
     const profesor = profesores.find(p => p.nombre === selectedProfesor);
-    return !profesor.dias[diaIndex].includes(hora);
+    if (!profesor) return false;
+    return !profesor.dias || !profesor.dias[diaIndex] || !profesor.dias[diaIndex].includes(hora);
+  };
+
+  const getAvailableCourses = () => {
+    if (!selectedProfesor) return [];
+    const profesor = profesores.find(p => p.nombre === selectedProfesor);
+    return profesor ? [profesor.curso] : [];
   };
 
   return (
@@ -31,6 +38,7 @@ const Horario = ({ profesores, onEdit, onDelete }) => {
             </li>
           ))}
         </ul>
+        <button onClick={onAdd}>Agregar Profesor</button> {/* Botón para agregar profesor */}
         <h3>Seleccionar Profesor</h3>
         <select onChange={(e) => setSelectedProfesor(e.target.value)} value={selectedProfesor}>
           <option value="">Seleccione o Agregar un Profesor</option>
@@ -57,13 +65,20 @@ const Horario = ({ profesores, onEdit, onDelete }) => {
               <td>{hora}</td>
               {dias.map((dia, diaIndex) => (
                 <td key={diaIndex} style={{ border: '1px solid black', padding: '10px' }}>
-                  <input
-                    type="text"
-                    value={horarios[diaIndex][horas.indexOf(hora)]}
-                    onChange={(e) => handleChange(diaIndex, horas.indexOf(hora), e.target.value)}
-                    disabled={isTimeDisabled(diaIndex, hora)}
-                    style={{ width: '100%' }}
-                  />
+                  {isTimeDisabled(diaIndex, hora) ? (
+                    <span style={{ color: 'gray' }}>No disponible</span>
+                  ) : (
+                    <select
+                      value={horarios[diaIndex][horas.indexOf(hora)]}
+                      onChange={(e) => handleChange(diaIndex, horas.indexOf(hora), e.target.value)}
+                      style={{ width: '100%' }}
+                    >
+                      <option value="">Seleccionar curso</option>
+                      {getAvailableCourses().map((curso, index) => (
+                        <option key={index} value={curso}>{curso}</option>
+                      ))}
+                    </select>
+                  )}
                 </td>
               ))}
             </tr>
