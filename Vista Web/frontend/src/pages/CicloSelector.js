@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './App.css';  // Importar el archivo CSS
 
 const CicloSelector = () => {
   const [ciclos, setCiclos] = useState([]);
@@ -23,9 +24,9 @@ const CicloSelector = () => {
       navigate('/horario'); // Redirige al horario
     }
   };
-
+  
   return (
-    <div>
+    <div className="container"> {/* Agrega la clase container aquí */}
       <h2>Seleccionar Ciclo</h2>
       <select onChange={(e) => setSelectedCiclo(e.target.value)}>
         <option value="">Seleccione un ciclo</option>

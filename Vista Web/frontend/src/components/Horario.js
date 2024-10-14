@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../pages/App.css';  // Importar el archivo CSS
 
 const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -26,8 +27,8 @@ const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ marginRight: '20px' }}>
+    <div className="container2"> {/* Aplicar la clase container */}
+      <div className="professor-column"> {/* Nueva clase para la columna de profesores */}
         <h2>Lista de Profesores</h2>
         <ul>
           {profesores.map((profesor, index) => (
@@ -38,10 +39,10 @@ const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
             </li>
           ))}
         </ul>
-        <button onClick={onAdd}>Agregar Profesor</button> {/* Botón para agregar profesor */}
+        <button onClick={onAdd}>Agregar Profesor</button>
         <h3>Seleccionar Profesor</h3>
-        <select onChange={(e) => setSelectedProfesor(e.target.value)} value={selectedProfesor}>
-          <option value="">Seleccione o Agregar un Profesor</option>
+        <select className="course-selector" onChange={(e) => setSelectedProfesor(e.target.value)} value={selectedProfesor}>
+          <option  value="">Seleccione o Agregar un Profesor</option>
           {profesores.length === 0 && <option value="add">Agregar nueva opción</option>}
           {profesores.map(prof => (
             <option key={prof.nombre} value={prof.nombre}>{prof.nombre}</option>
@@ -50,41 +51,43 @@ const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
         </select>
       </div>
 
-      <table style={{ borderCollapse: 'collapse' }}>
-        <thead>
-          <tr>
-            <th>Hora/Día</th>
-            {dias.map((dia) => (
-              <th key={dia}>{dia}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {horas.map((hora) => (
-            <tr key={hora}>
-              <td>{hora}</td>
-              {dias.map((dia, diaIndex) => (
-                <td key={diaIndex} style={{ border: '1px solid black', padding: '10px' }}>
-                  {isTimeDisabled(diaIndex, hora) ? (
-                    <span style={{ color: 'gray' }}>No disponible</span>
-                  ) : (
-                    <select
-                      value={horarios[diaIndex][horas.indexOf(hora)]}
-                      onChange={(e) => handleChange(diaIndex, horas.indexOf(hora), e.target.value)}
-                      style={{ width: '100%' }}
-                    >
-                      <option value="">Seleccionar curso</option>
-                      {getAvailableCourses().map((curso, index) => (
-                        <option key={index} value={curso}>{curso}</option>
-                      ))}
-                    </select>
-                  )}
-                </td>
+      <div className="table-column"> {/* Nueva clase para la columna de la tabla */}
+        <table className="schedule-table">
+          <thead>
+            <tr>
+              <th>Hora/Día</th>
+              {dias.map((dia) => (
+                <th key={dia}>{dia}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {horas.map((hora) => (
+              <tr key={hora}>
+                <td>{hora}</td>
+                {dias.map((dia, diaIndex) => (
+                  <td key={diaIndex}>
+                    {isTimeDisabled(diaIndex, hora) ? (
+                      <span className="disabled">No disponible</span>
+                    ) : (
+                      <select
+                        value={horarios[diaIndex][horas.indexOf(hora)]}
+                        onChange={(e) => handleChange(diaIndex, horas.indexOf(hora), e.target.value)}
+                        className="course-selector"
+                      >
+                        <option value="">Seleccionar curso</option>
+                        {getAvailableCourses().map((curso, index) => (
+                          <option key={index} value={curso}>{curso}</option>
+                        ))}
+                      </select>
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
