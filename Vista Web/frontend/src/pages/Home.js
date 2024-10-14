@@ -1,7 +1,7 @@
 import React from 'react';
 import Horario from '../components/Horario';
 
-const Home = ({ profesores, onEdit, onDelete }) => {
+const Home = ({ profesores = [], onEdit, onDelete }) => {
   return (
     <div>
       <h2>Horario</h2>
