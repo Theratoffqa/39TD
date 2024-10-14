@@ -33,8 +33,18 @@ const Login = () => {
 
       if (response.ok) {
         const user = await response.json();
+        
+        // Guarda la información del usuario en cookies
         Cookies.set('user', JSON.stringify(user), { expires: 7 });
-        navigate('/ciclo-selector'); // Redirige a la selección de ciclo
+        
+        // Verifica el rol del usuario
+        if (user.role === 'usuario') {
+          // Si es estudiante, redirige a /reader
+          navigate('/reader');
+        } else {
+          // Si tiene otro rol, redirige a la selección de ciclo
+          navigate('/ciclo-selector');
+        }
       } else {
         setErrorMessage('ID o contraseña incorrectos');
       }

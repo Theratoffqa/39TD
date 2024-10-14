@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import CicloSelector from './pages/CicloSelector';
+import Reader from './pages/Reader';
 import AddProfesorForm from './components/AddProfesorForm';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/register" element={<Register/>} />
         <Route path="/ciclo-selector" element={<CicloSelector/>} />
         <Route path="/horario" element={<Home/>} />
+        <Route path="/reader" element={<Reader/>} />
         <Route path="/" element={<Login/>} />
       </Routes>
     </div>
