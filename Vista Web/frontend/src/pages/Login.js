@@ -49,7 +49,7 @@ const Login = () => {
       {/* Formulario de registro */}
       <div className={`signup ${!isLogin ? '' : 'slide-up'}`}>
         <h2 className="form-title" onClick={toggleForm} id="signup">
-          <span>or</span> Sign up
+          <span>o</span> Registrarse
         </h2>
         <div className="form-holder">
           <Register onRegister={handleRegister} />
@@ -60,7 +60,7 @@ const Login = () => {
       <div className={`login ${isLogin ? '' : 'slide-up'}`}>
         <div className="center">
           <h2 className="form-title" onClick={toggleForm} id="login">
-            <span>or</span> Log in
+            <span>o</span> Iniciar Sesión
           </h2>
           <div className="form-holder">
             <input
@@ -80,7 +80,7 @@ const Login = () => {
             {errorMessage && <p className="error">{errorMessage}</p>} {/* Mostrar mensaje de error */}
           </div>
           <button className="submit-btn" onClick={handleLogin}>
-            Log in
+            Iniciar Sesión
           </button>
         </div>
       </div>
