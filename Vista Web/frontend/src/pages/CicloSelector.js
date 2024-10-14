@@ -1,23 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const CicloSelector = ({ onSelectCiclo, ciclos }) => {
+const CicloSelector = () => {
+  const [ciclos, setCiclos] = useState([]);
+  const [selectedCiclo, setSelectedCiclo] = useState('');
   const navigate = useNavigate();
 
-  const handleSelect = (ciclo) => {
-    onSelectCiclo(ciclo);
-    navigate('/horario'); // Redirige al horario
+  useEffect(() => {
+    // Simulación de una llamada a un API para obtener los ciclos
+    const fetchCiclos = async () => {
+      // Aquí puedes reemplazar esto con una llamada real a tu backend
+      const fetchedCiclos = ['Ciclo 1', 'Ciclo 2', 'Ciclo 3']; // Simulación de ciclos
+      setCiclos(fetchedCiclos);
+    };
+
+    fetchCiclos();
+  }, []);
+
+  const handleSelect = () => {
+    if (selectedCiclo) {
+      // Guardar la selección en el backend (agregar lógica aquí si es necesario)
+      navigate('/horario'); // Redirige al horario
+    }
   };
 
   return (
     <div>
       <h2>Seleccionar Ciclo</h2>
-      <select onChange={(e) => handleSelect(e.target.value)}>
+      <select onChange={(e) => setSelectedCiclo(e.target.value)}>
         <option value="">Seleccione un ciclo</option>
         {ciclos.map((ciclo, index) => (
           <option key={index} value={ciclo}>{ciclo}</option>
         ))}
       </select>
+      <button onClick={handleSelect}>Seleccionar</button>
     </div>
   );
 };
