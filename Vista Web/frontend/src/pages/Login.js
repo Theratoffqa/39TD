@@ -40,7 +40,7 @@ const Login = () => {
         if (user.role === 'admin') {
           navigate('/ciclo-selector');
         } else {
-          navigate('/ciclo-selector');
+          navigate('/reader');
         }
          // Redirige a la selección de ciclo
       } else {

@@ -56,6 +56,57 @@ input[type="text"] {
   border-radius: 5px;
 }
 
+.reader {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.reader h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.reader input[type="file"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.reader ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.reader ul li {
+    background-color: #6b92a4;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reader ul li:hover {
+    background-color: #5a7a8b;
+    transition: background-color 0.3s ease;
+}
+
 button {
   padding: 10px 20px;
   margin-right: 10px;
@@ -446,3 +497,4 @@ button:hover {
 		}
 	}
 }
+
