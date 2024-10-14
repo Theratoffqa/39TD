@@ -92,6 +92,19 @@ app.post('/api/seleccionar-ciclo', (req, res) => {
   });
 });
 
+// Ruta para agregar un nuevo profesor
+app.post('/api/profesores', (req, res) => {
+  const { nombre, apellido, curso, ciclo, dias } = req.body;
+  const query = 'INSERT INTO profesores (nombre, apellido, curso, ciclo, dias) VALUES (?, ?, ?, ?, ?)';
+
+  db.query(query, [nombre, apellido, curso, ciclo, JSON.stringify(dias)], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ id: result.insertId, nombre, apellido, curso, ciclo, dias });
+  });
+});
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en http://localhost:${PORT}`);

@@ -1,10 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import AddProfesorForm from './AddProfesorForm';
 
-const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
+const Horario = ({ profesores = [], onEdit, onDelete, onAdd }) => {
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const horas = Array.from({ length: 15 }, (_, i) => `${i + 8}:00`); // Horas de 8:00 a 22:00
   const [horarios, setHorarios] = useState(Array(dias.length).fill(null).map(() => Array(horas.length).fill('')));
   const [selectedProfesor, setSelectedProfesor] = useState('');
+  const [showAddProfesorForm, setShowAddProfesorForm] = useState(false);
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const cicloSeleccionado = queryParams.get('ciclo') || '';
+
+  useEffect(() => {
+    if (!cicloSeleccionado) {
+      console.error('No se seleccionó ningún ciclo');
+    }
+  }, [cicloSeleccionado]);
+
+  const handleAddProfesor = async (nuevoProfesor) => {
+    const profesorConCiclo = { ...nuevoProfesor, ciclo: cicloSeleccionado };
+    const response = await fetch('http://localhost:5000/api/profesores', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(profesorConCiclo),
+    });
+    if (response.ok) {
+      const addedProfesor = await response.json();
+      onAdd(addedProfesor);
+      setShowAddProfesorForm(false);
+    } else {
+      console.error('Error al agregar profesor');
+    }
+  };
 
   const handleChange = (diaIndex, horaIndex, value) => {
     const newHorarios = [...horarios];
@@ -28,7 +59,7 @@ const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ marginRight: '20px' }}>
-        <h2>Lista de Profesores</h2>
+        <h2>Lista de Profesores Ciclo {cicloSeleccionado}</h2>
         <ul>
           {profesores.map((profesor, index) => (
             <li key={index}>
@@ -38,7 +69,13 @@ const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
             </li>
           ))}
         </ul>
-        <button onClick={onAdd}>Agregar Profesor</button> {/* Botón para agregar profesor */}
+        <button onClick={() => setShowAddProfesorForm(true)}>Agregar Profesor</button>
+        {showAddProfesorForm && (
+          <AddProfesorForm 
+            onAddProfesor={handleAddProfesor} 
+            onClose={() => setShowAddProfesorForm(false)} 
+          />
+        )}
         <h3>Seleccionar Profesor</h3>
         <select onChange={(e) => setSelectedProfesor(e.target.value)} value={selectedProfesor}>
           <option value="">Seleccione o Agregar un Profesor</option>
@@ -49,7 +86,6 @@ const Horario = ({ profesores, onEdit, onDelete, onAdd }) => {
           {profesores.length > 0 && <option value="add">Agregar nueva opción</option>}
         </select>
       </div>
-
       <table style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr>

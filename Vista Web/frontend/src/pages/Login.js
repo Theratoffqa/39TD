@@ -27,7 +27,13 @@ const Login = () => { // Eliminar el onLogin aquí
       if (response.ok) {
         const user = await response.json();
         Cookies.set('user', JSON.stringify(user), { expires: 7 });
-        navigate('/ciclo-selector'); // Redirige a la selección de ciclo
+
+        if (user.role === 'admin') {
+          navigate('/ciclo-selector');
+        } else {
+          navigate('/ciclo-selector');
+        }
+         // Redirige a la selección de ciclo
       } else {
         setErrorMessage('ID o contraseña incorrectos');
       }

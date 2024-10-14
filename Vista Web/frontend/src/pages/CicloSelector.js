@@ -7,27 +7,25 @@ const CicloSelector = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulación de una llamada a un API para obtener los ciclos
     const fetchCiclos = async () => {
-      // Aquí puedes reemplazar esto con una llamada real a tu backend
-      const fetchedCiclos = ['Ciclo 1', 'Ciclo 2', 'Ciclo 3']; // Simulación de ciclos
+      const fetchedCiclos = [
+        'Ciclo 1', 'Ciclo 2', 'Ciclo 3', 'Ciclo 4', 'Ciclo 5', 'Ciclo 6', 'Ciclo 7', 'Ciclo 8', 'Ciclo 9', 'Ciclo 10'
+      ];
       setCiclos(fetchedCiclos);
     };
-
     fetchCiclos();
   }, []);
 
   const handleSelect = () => {
     if (selectedCiclo) {
-      // Guardar la selección en el backend (agregar lógica aquí si es necesario)
-      navigate('/horario'); // Redirige al horario
+      navigate(`/horario?ciclo=${selectedCiclo}`);
     }
   };
 
   return (
     <div>
       <h2>Seleccionar Ciclo</h2>
-      <select onChange={(e) => setSelectedCiclo(e.target.value)}>
+      <select onChange={(e) => setSelectedCiclo(e.target.value)} value={selectedCiclo}>
         <option value="">Seleccione un ciclo</option>
         {ciclos.map((ciclo, index) => (
           <option key={index} value={ciclo}>{ciclo}</option>
