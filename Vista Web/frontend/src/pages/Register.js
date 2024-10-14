@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Register = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('usuario');
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     const userData = { id, password, role };
